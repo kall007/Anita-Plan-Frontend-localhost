@@ -1,23 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import LoginPage from './assets/pages/loginPage';
-import SignupPage from './assets/pages/signupPage';
-import PlanPage from './assets/pages/planPage';
-import AboutPage from './assets/pages/aboutPage';
-import UserPage from './assets/pages/userPage';
+import LoginPage from "./assets/pages/loginPage";
+import SignupPage from "./assets/pages/signupPage";
+import PlanPage from "./assets/pages/planPage";
+import AboutPage from "./assets/pages/aboutPage";
+import UserPage from "./assets/pages/userPage";
 
 function App() {
-  const { loading, error } = useApi();
-
-  if (loading) return <h1>Loading</h1>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
     <div className="App">
-
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
