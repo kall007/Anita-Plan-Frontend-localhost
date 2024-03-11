@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const API_URL = "http://localhost:5005";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const navigate = useNavigate();
+
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -21,9 +23,9 @@ function LoginPage() {
       .post(`${API_URL}/login`, requestBody)
       .then((response) => {
         console.log("JWT token", response.data.authToken);
-        //storeToken(response.data.authToken);
-        //authenticateUser();
-        navigate("/");
+        storeToken(response.data.authToken);
+        authenticateUser();
+        navigate("/plan");
       })
       .catch((err) => {
         console.log(err);
@@ -52,7 +54,6 @@ function LoginPage() {
           />
           <button>Log In</button>
         </form>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <p>Dont have an account yet?</p>
         <Link to={"/signup"}> Sign Up</Link>
       </div>
