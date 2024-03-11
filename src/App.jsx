@@ -10,6 +10,9 @@ import AboutPage from "./assets/pages/aboutPage";
 import UserPage from "./assets/pages/userPage";
 import SideBar from "./assets/components/sideBar";
 import CalendarPage from "./assets/pages/calendarPage";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function App() {
   return (

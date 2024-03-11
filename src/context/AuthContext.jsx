@@ -73,9 +73,9 @@ function AuthWrapper(props) {
 
   // Effect hook to authenticate the user upon initial render
   useEffect(() => {
-    // Initialize authentication state upon component mount,
-    // ensuring the user's authentication status is accurately reflected.
-  });
+    // Call the authenticateUser function to check if the user is logged in
+    authenticateUser();
+  }, []);
 
   return (
     <AuthContext.Provider
