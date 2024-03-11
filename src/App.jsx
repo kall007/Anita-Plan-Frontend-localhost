@@ -6,11 +6,12 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./assets/pages/loginPage";
 import SignupPage from "./assets/pages/signupPage";
 import PlanPage from "./assets/pages/planPage";
-import AboutPage from "./assets/pages/aboutPage";
+import ErrorPage from './pages/ErrorPage';
 import UserPage from "./assets/pages/userPage";
 import SideBar from "./assets/components/sideBar";
 import CalendarPage from "./assets/pages/calendarPage";
 import Modal from "react-modal";
+import About from "./pages/About";
 
 Modal.setAppElement("#root");
 
@@ -22,9 +23,10 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/plan" element={<PlanPage />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/user:userId" element={<UserPage />} />
         <Route path="/calendars" element={<CalendarPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
   );

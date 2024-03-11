@@ -1,6 +1,14 @@
-function ErrorPage(){
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-    <div>this is 404 page</div>
+const ErrorPage = () => {
+    return (
+        <div>
+            <h1>404 Error</h1>
+            <p>Oops! Something went wrong.</p>
+            <p><Link to="/">Go back to homepage</Link></p>
+        </div>
+    );
 }
 
-export default ErrorPage
+export default ErrorPage;
