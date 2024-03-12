@@ -1,17 +1,15 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
+import { useCookies } from "react-cookie";
 
 const API_URL = "http://localhost:5005";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [cookies, setCookie] = useCookies("token_id");
   const navigate = useNavigate();
-
-  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -23,8 +21,9 @@ function LoginPage() {
       .post(`${API_URL}/login`, requestBody)
       .then((response) => {
         console.log("JWT token", response.data.authToken);
-        storeToken(response.data.authToken);
-        authenticateUser();
+        setCookie("token_id", response.data.userId);
+        localStorage.setItem("authToken", response.data.authToken);
+        localStorage.setItem("userId", response.data.userId);
         navigate("/plan");
       })
       .catch((err) => {

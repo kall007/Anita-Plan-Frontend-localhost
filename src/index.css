@@ -1,18 +1,39 @@
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+:root {
+  --primary: #d81e5b;
+  --secondary: #8a4efc;
+  --light: #eee;
+  --light-alt: #61759b;
+  --dark: #131a26;
+  --dark-alt: #202b3e;
 }
-button:hover {
-  border-color: #646cff;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  font-family: "Fira Sans", sans-serif;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+body {
+  background-color: var(--dark-alt);
+  color: var(--light);
+}
+
+.App {
+  padding: 32px;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+h4 {
+  font-size: 18px;
+  color: var(--light-alt);
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-bottom: 16px;
 }

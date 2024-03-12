@@ -21,7 +21,6 @@ function SignupPage() {
     // Create an object representing the request body
     const reqBody = { email, password, name };
 
-    //Axios request to the API
     axios
       .post(`${API_URL}/signup`, reqBody)
       .then(() => {
