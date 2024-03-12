@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import "./loginPage.css";
 
 const API_URL = "http://localhost:5005";
 
@@ -24,37 +25,44 @@ function LoginPage() {
         setCookie("token_id", response.data.userId);
         localStorage.setItem("authToken", response.data.authToken);
         localStorage.setItem("userId", response.data.userId);
-        navigate("/plan");
       })
       .catch((err) => {
         console.log(err);
       });
+
+    navigate("/plan");
   };
   return (
-    <div>
-      <div>
-        <form onSubmit={handleLoginSubmit}>
-          <h1>Login</h1>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={email}
-            onChange={handleEmail}
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={handlePassword}
-          />
-          <button>Log In</button>
-        </form>
-        <p>Dont have an account yet?</p>
-        <Link to={"/signup"}> Sign Up</Link>
+    <div className="login-wrapper">
+      <div className="login-container">
+        <div className="login-form">
+          <form onSubmit={handleLoginSubmit}>
+            <div className="email-field">
+              <h1>Login</h1>
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                onChange={handleEmail}
+              />
+            </div>
+            <div className="password-field">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                value={password}
+                onChange={handlePassword}
+              />
+            </div>
+            <button>Log In</button>
+          </form>
+          <p>Dont have an account yet?</p>
+          <Link to={"/signup"}> Sign Up</Link>
+        </div>
       </div>
     </div>
   );

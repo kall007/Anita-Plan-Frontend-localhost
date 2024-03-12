@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import "./planPage.css";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "http://localhost:5005";
 
@@ -11,6 +12,18 @@ function PlanPage() {
   const [popupActive, setPopupActive] = useState(false);
   const [newPlan, setNewPlan] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+
+  const getName = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/user/${userId}`);
+      setUser(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const getPlans = async () => {
     try {
@@ -26,6 +39,7 @@ function PlanPage() {
   useEffect(() => {
     setLoading(true);
     getPlans();
+    getName();
   }, []);
 
   const completePlan = async (id) => {
@@ -40,6 +54,7 @@ function PlanPage() {
           return plan;
         })
       );
+      getPlans(); // Call getPlans after completing plan
     } catch (error) {
       console.error("Error completing plan:", error);
     }
@@ -48,6 +63,7 @@ function PlanPage() {
   const deletePlan = async (id) => {
     try {
       await axios.delete(`${API_URL}/plans/delete/${id}`);
+      getPlans(); // Call getPlans after deleting plan
     } catch (error) {
       console.error("Error deleting plan:", error);
     }
@@ -62,6 +78,7 @@ function PlanPage() {
       setPlans([...plans, data]);
       setPopupActive(false);
       setNewPlan("");
+      getPlans(); // Call getPlans after adding plan
     } catch (error) {
       console.error("Error adding plan:", error);
     }
@@ -69,7 +86,7 @@ function PlanPage() {
 
   return (
     <div className="body">
-      <h1>Welcome User</h1>
+      <h1>Welcome {user && user.name}</h1>
       <h4>Your plans</h4>
       {loading ? (
         <div>Loading...</div>
@@ -123,6 +140,7 @@ function PlanPage() {
           setCookie("token_id", "");
           localStorage.removeItem("authToken");
           localStorage.removeItem("userId");
+          navigate("/");
         }}
       >
         Logout
