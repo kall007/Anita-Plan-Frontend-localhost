@@ -54,7 +54,7 @@ function PlanPage() {
           return plan;
         })
       );
-      getPlans(); // Call getPlans after completing plan
+      getPlans();
     } catch (error) {
       console.error("Error completing plan:", error);
     }
@@ -63,7 +63,7 @@ function PlanPage() {
   const deletePlan = async (id) => {
     try {
       await axios.delete(`${API_URL}/plans/delete/${id}`);
-      getPlans(); // Call getPlans after deleting plan
+      getPlans();
     } catch (error) {
       console.error("Error deleting plan:", error);
     }
@@ -78,7 +78,7 @@ function PlanPage() {
       setPlans([...plans, data]);
       setPopupActive(false);
       setNewPlan("");
-      getPlans(); // Call getPlans after adding plan
+      getPlans();
     } catch (error) {
       console.error("Error adding plan:", error);
     }
