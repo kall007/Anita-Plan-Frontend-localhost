@@ -30,7 +30,8 @@ function PlanPage() {
   const getPlans = async () => {
     try {
       const res = await axios.get(`${API_URL}/plans`);
-      setPlans(res.data.plans);
+      console.log(res);
+      setPlans(res.data);
     } catch (err) {
       console.log(err);
     } finally {
@@ -75,9 +76,9 @@ function PlanPage() {
     try {
       const response = await axios.post(`${API_URL}/plans/new`, {
         text: newPlan,
+        user: userId,
       });
       const data = response.data;
-      setPlans([...plans, data]);
       setPopupActive(false);
       setNewPlan("");
       getPlans();

@@ -23,7 +23,7 @@ function WeeklyPlanPage() {
 
   const addWeek = async () => {
     try {
-      const response = await axios.post(`${API_URL}/plans/new`, {
+      const response = await axios.post(`${API_URL}/week`, {
         text: newPlan,
       });
       const data = response.data;
