@@ -1,0 +1,49 @@
+.navWrapper {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 15px 30px; 
+  }
+  
+  .CompanyName {
+    font-size: 2rem; /* Anita plan */
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .navContainer {
+    display: flex;
+  }
+  
+  .navContainer a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 30px; /* Home and About */
+    font-size: 1.4rem;
+  }
+  
+  .navContainer a:hover {
+    color: #ccc; /* Home and About */
+  }
+
+  .CompanyName:hover {
+    color: #ccc; /* Anita-Plan */
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    padding-left: 25px; /* Reset margin */
+  }
+  
+  button:hover {
+    color: #ccc;
+  }
