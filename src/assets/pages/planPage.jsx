@@ -1,5 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./planPage.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ function PlanPage() {
   const [newPlan, setNewPlan] = useState("");
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [editPlanId, setEditPlanId] = useState(null);
+  const [editedPlanText, setEditedPlanText] = useState("");
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
 
@@ -84,6 +86,24 @@ function PlanPage() {
     }
   };
 
+  const editPlan = async (id) => {
+    try {
+      await axios.put(`${API_URL}/plans/update/${id}`, {
+        text: editedPlanText,
+      });
+      setEditPlanId(null);
+      setEditedPlanText("");
+      getPlans();
+    } catch (error) {
+      console.error("Error editing plan:", error);
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditPlanId(null);
+    setEditedPlanText("");
+  };
+
   return (
     <div className="body">
       <h1>Welcome {user && user.name}</h1>
@@ -94,6 +114,8 @@ function PlanPage() {
         <div className="plans">
           {plans &&
             plans.map((plan) => {
+              console.log("editPlanId:", editPlanId);
+              console.log("plan._id:", plan._id);
               return (
                 <div
                   className={"plan" + (plan.complete ? " is-complete" : "")}
@@ -101,7 +123,35 @@ function PlanPage() {
                   onClick={() => completePlan(plan._id)}
                 >
                   <div className="checkbox"></div>
-                  <div className="text">{plan.text}</div>
+                  {editPlanId === plan._id ? (
+                    <input
+                      type="text"
+                      value={editedPlanText}
+                      onChange={(e) => setEditedPlanText(e.target.value)}
+                      autoFocus
+                      onBlur={() => editPlan(plan._id)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          editPlan(plan._id);
+                        }
+                      }}
+                    />
+                  ) : (
+                    <div className="text">{plan.text}</div>
+                  )}
+                  {editPlanId === plan._id ? (
+                    <button onClick={() => editPlan(plan._id)}>Submit</button>
+                  ) : (
+                    <div
+                      className="edit-plan"
+                      onClick={() => {
+                        setEditPlanId(plan._id);
+                        setEditedPlanText(plan.text);
+                      }}
+                    >
+                      Edit
+                    </div>
+                  )}
                   <div
                     className="delete-plan"
                     onClick={() => deletePlan(plan._id)}
