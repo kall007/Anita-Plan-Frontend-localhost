@@ -30,8 +30,14 @@ function PlanPage() {
   const getPlans = async () => {
     try {
       const res = await axios.get(`${API_URL}/plans`);
-      console.log(res);
-      setPlans(res.data);
+      if (res) {
+        const filterPlans = res.data.filter((e) => {
+          if (e.user && e.user._id === userId) {
+            return e;
+          }
+        });
+        setPlans(filterPlans);
+      }
     } catch (err) {
       console.log(err);
     } finally {
