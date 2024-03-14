@@ -58,9 +58,9 @@ function LoginPage() {
                 onChange={handlePassword}
               />
             </div>
-            <button>Log In</button>
+            <button className="button-container2">Log In</button>
           </form>
-          <p>Dont have an account yet?</p>
+          <p className="no-account-yet">Dont have an account yet?</p>
           <Link to={"/signup"}> Sign Up</Link>
         </div>
       </div>
