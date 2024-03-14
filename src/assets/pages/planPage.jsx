@@ -87,8 +87,7 @@ function PlanPage() {
         user: userId,
       });
 
-      // Assuming user.plan is an array
-      const updatedPlanArray = [...user.plan, newPlan]; // Create a new array with newPlan added
+      const updatedPlanArray = [...user.plan, newPlan];
 
       const updateUser = await axios.put(`${API_URL}/user/${userId}`, {
         ...user,
@@ -200,16 +199,6 @@ function PlanPage() {
           </div>
         </div>
       )}
-      <button
-        onClick={() => {
-          setCookie("token_id", "");
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("userId");
-          navigate("/");
-        }}
-      >
-        Logout
-      </button>
     </div>
   );
 }

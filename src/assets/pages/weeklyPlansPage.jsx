@@ -8,8 +8,10 @@ function WeeklyPlanPage() {
   const [user, setUser] = useState(null);
   const [popupActive, setPopupActive] = useState(false);
   const [newPlan, setNewPlan] = useState([]);
-  const [selectedPlan, setSelectedPlan] = useState("");
-  const [dayOfWeek, setDayOfWeek] = useState("");
+  const [selectedPlan, setSelectedPlan] = useState(null);
+  const [dayOfWeek, setDayOfWeek] = useState("Monday");
+  const [items, setItems] = useState([]);
+  const [showItems, setShowItems] = useState(false);
 
   const userId = localStorage.getItem("userId");
 
@@ -28,16 +30,27 @@ function WeeklyPlanPage() {
       console.log(err);
     }
   };
+  const getWeeks = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/week`);
+      setItems(res.data.weeks);
+    } catch (err) {
+      console.error("Error fetching weeks:", err);
+    }
+  };
 
   const addWeek = async () => {
     try {
+      if (!selectedPlan) {
+        alert("please select a plan.");
+      }
       const response = await axios.post(`${API_URL}/week`, {
         dayOfWeek: dayOfWeek,
-        plan: JSON.stringify(selectedPlan),
+        plan: selectedPlan,
         user: userId,
       });
       if (response) {
-        alert("Congratulations! You have planned your week.");
+        alert("You added a plan to your day.");
       }
     } catch (error) {
       console.error("Error adding plan:", error);
@@ -46,19 +59,170 @@ function WeeklyPlanPage() {
 
   useEffect(() => {
     getName();
+    getWeeks();
   }, []);
+  const MONDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Monday";
+    });
+  const TUESDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Tuesday";
+    });
+  const WEDNESDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Wednesday";
+    });
+  const THURSDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Wednesday";
+    });
+  const FRIDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Friday";
+    });
+  const SATURDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Saturday";
+    });
+  const SUNDAY =
+    items &&
+    items.filter((e) => {
+      return e.dayOfWeek === "Sunday";
+    });
+  const displayItems = (day) => {
+    setShowItems(day);
+  };
   return (
     <div>
       <h1>{user && user.name}'s weekly plans</h1>
       <div className="calendar-container">
         <div className="week">
-          <div className="monday">Monday</div>
-          <div className="tuesday">Tuesday</div>
-          <div className="wednesday">Wednesday</div>
-          <div className="thursday">Thursday</div>
-          <div className="friday">Friday</div>
-          <div className="saturday">Saturday</div>
-          <div className="sunday">Sunday</div>
+          <div
+            className="monday"
+            onClick={() => {
+              displayItems("monday");
+            }}
+          >
+            Monday
+          </div>
+          {showItems === "monday" &&
+            MONDAY &&
+            MONDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
+          <div
+            className="tuesday"
+            onClick={() => {
+              displayItems("tuesday");
+            }}
+          >
+            Tuesday
+          </div>
+          {showItems === "tuesday" &&
+            TUESDAY &&
+            TUESDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
+          <div
+            className="wednesday"
+            onClick={() => {
+              displayItems("wednesday");
+            }}
+          >
+            Wednesday
+          </div>
+          {showItems === "wednesday" &&
+            WEDNESDAY &&
+            WEDNESDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
+          <div
+            className="thursday"
+            onClick={() => {
+              displayItems("thursday");
+            }}
+          >
+            Thursday
+          </div>
+          {showItems === "thursday" &&
+            THURSDAY &&
+            THURSDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
+          <div
+            className="friday"
+            onClick={() => {
+              displayItems("friday");
+            }}
+          >
+            Friday
+          </div>
+          {showItems === "friday" &&
+            FRIDAY &&
+            FRIDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
+          <div
+            className="saturday"
+            onClick={() => {
+              displayItems("saturday");
+            }}
+          >
+            Saturday
+          </div>
+          {showItems === "saturday" &&
+            SATURDAY &&
+            SATURDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
+          <div
+            className="sunday"
+            onClick={() => {
+              displayItems("sunday");
+            }}
+          >
+            Sunday
+          </div>
+          {showItems === "sunday" &&
+            SUNDAY &&
+            SUNDAY.map((item) => {
+              return item.plan && item.plan.length > 0
+                ? item.plan.map((e, index) => {
+                    return <div key={index}>{`${e}`}</div>;
+                  })
+                : null;
+            })}
         </div>
       </div>
       <div className="addPopup" onClick={() => setPopupActive(true)}>
@@ -94,8 +258,8 @@ function WeeklyPlanPage() {
             name="dayOfWeek"
           >
             {newPlan.map((plan, index) => (
-              <option key={index} value={plan}>
-                {plan.item} {}
+              <option key={index} value={plan.item}>
+                {plan.item}
               </option>
             ))}
           </select>
