@@ -18,7 +18,7 @@ const Navbar = () => {
       </Link>
       <nav className="navContainer">
         <Link to="/weeklyPlan">Weekly Plan</Link>
-        <Link to="/plan">Home</Link>
+        <Link to="/plan">Plans</Link>
         <Link to="/about">About</Link>
 
         <button

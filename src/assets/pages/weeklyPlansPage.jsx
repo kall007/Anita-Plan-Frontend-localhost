@@ -19,13 +19,11 @@ function WeeklyPlanPage() {
       const user = res.data;
       setUser(user);
 
-      // Assuming user has a property called 'plan' which is an array of objects
       const userPlan = user.plan.map((item) => ({
-        day: item.day,
-        data: item.data,
+        item,
       }));
 
-      setNewPlan(userPlan); // Assuming you have a state setter function for newPlan
+      setNewPlan(userPlan);
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +33,7 @@ function WeeklyPlanPage() {
     try {
       const response = await axios.post(`${API_URL}/week`, {
         dayOfWeek: dayOfWeek,
-        plan: selectedPlan,
+        plan: JSON.stringify(selectedPlan),
         user: userId,
       });
       if (response) {
@@ -49,7 +47,6 @@ function WeeklyPlanPage() {
   useEffect(() => {
     getName();
   }, []);
-  console.log(newPlan);
   return (
     <div>
       <h1>{user && user.name}'s weekly plans</h1>
@@ -92,13 +89,13 @@ function WeeklyPlanPage() {
           <label>Choose a plan:</label>
           <select
             onChange={(e) => {
-              setDay(e.target.value);
+              setSelectedPlan(e.target.value);
             }}
             name="dayOfWeek"
           >
             {newPlan.map((plan, index) => (
-              <option key={index} value={`${plan}`}>
-                {`${plan}`}
+              <option key={index} value={plan}>
+                {plan.item} {}
               </option>
             ))}
           </select>

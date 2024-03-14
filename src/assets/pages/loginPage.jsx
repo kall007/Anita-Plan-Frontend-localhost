@@ -15,22 +15,21 @@ function LoginPage() {
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const requestBody = { email, password };
-    axios
+    await axios
       .post(`${API_URL}/login`, requestBody)
       .then((response) => {
         console.log("JWT token", response.data.authToken);
         setCookie("token_id", response.data.userId);
         localStorage.setItem("authToken", response.data.authToken);
         localStorage.setItem("userId", response.data.userId);
+        navigate("/plan");
       })
       .catch((err) => {
         console.log(err);
       });
-
-    navigate("/plan");
   };
   return (
     <div className="login-wrapper">
