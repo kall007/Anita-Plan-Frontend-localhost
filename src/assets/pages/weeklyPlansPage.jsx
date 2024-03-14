@@ -49,9 +49,6 @@ function WeeklyPlanPage() {
         plan: selectedPlan,
         user: userId,
       });
-      if (response) {
-        alert("You added a plan to your day.");
-      }
     } catch (error) {
       console.error("Error adding plan:", error);
     }
@@ -264,7 +261,13 @@ function WeeklyPlanPage() {
             ))}
           </select>
 
-          <div className="button" onClick={addWeek}>
+          <div
+            className="button"
+            onClick={() => {
+              addWeek();
+              getWeeks();
+            }}
+          >
             Plan day
           </div>
         </div>
