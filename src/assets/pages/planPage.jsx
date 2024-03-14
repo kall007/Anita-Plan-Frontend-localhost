@@ -334,11 +334,12 @@ function PlanPage() {
                   {editPlanId === plan._id ? (
                     <input
                       type="text"
+                      className="edit-plan-input"
                       value={editedPlanText}
                       onChange={(e) => setEditedPlanText(e.target.value)}
                       autoFocus
                       onBlur={() => editPlan(plan._id)}
-                      onKeyPress={(e) => {
+                      onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           editPlan(plan._id);
                         }
