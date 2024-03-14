@@ -15,7 +15,16 @@ function WeeklyPlanPage() {
   const getName = async () => {
     try {
       const res = await axios.get(`${API_URL}/user/${userId}`);
-      setUser(res.data);
+      const user = res.data;
+      setUser(user);
+
+      // Assuming user has a property called 'plan' which is an array of objects
+      const newPlan = user.plan.map((item, index) => ({
+        day: item.day,
+        data: item.data,
+      }));
+
+      setNewPlan(newPlan); // Assuming you have a state setter function for newPlan
     } catch (err) {
       console.log(err);
     }
@@ -36,18 +45,28 @@ function WeeklyPlanPage() {
     }
   };
 
-  const getDay = async () => {
+  /*const getDay = async () => {
     try {
       const res = await axios.get(`${API_URL}/week`);
       setDay(res.data);
     } catch (err) {
       console.log(err);
     }
-  };
+  };*/
 
   useEffect(() => {
+    getPlan();
     getName();
   }, []);
+
+  const getPlan = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/plans`);
+      setNewPlan(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -77,7 +96,6 @@ function WeeklyPlanPage() {
           <select
             onChange={(e) => {
               setDay(e.target.value);
-              console.log(day);
             }}
             name="dayOfWeek"
           >
@@ -89,19 +107,20 @@ function WeeklyPlanPage() {
             <option value="Saturday">Saturday</option>
             <option value="Sunday">Sunday</option>
           </select>
+          <label>Choose a day:</label>
+          <select
+            onChange={(e) => {
+              setDay(e.target.value);
+            }}
+            name="dayOfWeek"
+          >
+            {newPlan.map((plan, index) => (
+              <option key={index} value={plan.day}>
+                {plan.data}
+              </option>
+            ))}
+          </select>
 
-          <input
-            type="text"
-            className="add-day-plan"
-            onChange={(e) => setNewPlan(e.target.value)}
-            value={newPlan}
-          />
-          <input
-            type="text"
-            className="add-day-plan"
-            onChange={(e) => setNewPlan(e.target.value)}
-            value={newPlan}
-          />
           <div className="button" onClick={addWeek}>
             Plan day
           </div>

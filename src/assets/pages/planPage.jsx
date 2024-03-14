@@ -20,8 +20,10 @@ function PlanPage() {
 
   const getName = async () => {
     try {
-      const res = await axios.get(`${API_URL}/user/${userId}`);
-      setUser(res.data);
+      if (userId) {
+        const res = await axios.get(`${API_URL}/user/${userId}`);
+        setUser(res.data);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -84,7 +86,15 @@ function PlanPage() {
         text: newPlan,
         user: userId,
       });
-      const data = response.data;
+
+      // Assuming user.plan is an array
+      const updatedPlanArray = [...user.plan, newPlan]; // Create a new array with newPlan added
+
+      const updateUser = await axios.put(`${API_URL}/user/${userId}`, {
+        ...user,
+        plan: updatedPlanArray,
+      });
+
       setPopupActive(false);
       setNewPlan("");
       getPlans();
@@ -121,8 +131,6 @@ function PlanPage() {
         <div className="plans">
           {plans &&
             plans.map((plan) => {
-              console.log("editPlanId:", editPlanId);
-              console.log("plan._id:", plan._id);
               return (
                 <div
                   className={"plan" + (plan.complete ? " is-complete" : "")}
