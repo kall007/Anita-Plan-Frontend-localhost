@@ -7,8 +7,9 @@ const API_URL = "http://localhost:5005";
 function WeeklyPlanPage() {
   const [user, setUser] = useState(null);
   const [popupActive, setPopupActive] = useState(false);
-  const [newPlan, setNewPlan] = useState("");
-  const [day, setDay] = useState("");
+  const [newPlan, setNewPlan] = useState([]);
+  const [selectedPlan, setSelectedPlan] = useState("");
+  const [dayOfWeek, setDayOfWeek] = useState("");
 
   const userId = localStorage.getItem("userId");
 
@@ -19,12 +20,12 @@ function WeeklyPlanPage() {
       setUser(user);
 
       // Assuming user has a property called 'plan' which is an array of objects
-      const newPlan = user.plan.map((item, index) => ({
+      const userPlan = user.plan.map((item) => ({
         day: item.day,
         data: item.data,
       }));
 
-      setNewPlan(newPlan); // Assuming you have a state setter function for newPlan
+      setNewPlan(userPlan); // Assuming you have a state setter function for newPlan
     } catch (err) {
       console.log(err);
     }
@@ -33,41 +34,22 @@ function WeeklyPlanPage() {
   const addWeek = async () => {
     try {
       const response = await axios.post(`${API_URL}/week`, {
-        dayOfWeek: day,
+        dayOfWeek: dayOfWeek,
+        plan: selectedPlan,
         user: userId,
       });
       if (response) {
-        alert("congratulationes you win");
-      } else {
+        alert("Congratulations! You have planned your week.");
       }
     } catch (error) {
       console.error("Error adding plan:", error);
     }
   };
 
-  /*const getDay = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/week`);
-      setDay(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };*/
-
   useEffect(() => {
-    getPlan();
     getName();
   }, []);
-
-  const getPlan = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/plans`);
-      setNewPlan(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  console.log(newPlan);
   return (
     <div>
       <h1>{user && user.name}'s weekly plans</h1>
@@ -95,7 +77,7 @@ function WeeklyPlanPage() {
           <label>Choose a day:</label>
           <select
             onChange={(e) => {
-              setDay(e.target.value);
+              setDayOfWeek(e.target.value);
             }}
             name="dayOfWeek"
           >
@@ -107,7 +89,7 @@ function WeeklyPlanPage() {
             <option value="Saturday">Saturday</option>
             <option value="Sunday">Sunday</option>
           </select>
-          <label>Choose a day:</label>
+          <label>Choose a plan:</label>
           <select
             onChange={(e) => {
               setDay(e.target.value);
@@ -115,8 +97,8 @@ function WeeklyPlanPage() {
             name="dayOfWeek"
           >
             {newPlan.map((plan, index) => (
-              <option key={index} value={plan.day}>
-                {plan.data}
+              <option key={index} value={`${plan}`}>
+                {`${plan}`}
               </option>
             ))}
           </select>

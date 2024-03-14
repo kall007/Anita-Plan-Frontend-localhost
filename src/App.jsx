@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./assets/pages/loginPage";
 import SignupPage from "./assets/pages/signupPage";
 import ErrorPage from "./assets/pages/errorPage";
-import UserPage from "./assets/pages/weeklyPlansPage";
 import About from "./assets/pages/About";
 import PlanPage from "./assets/pages/planPage";
 import Header from "./assets/components/Header";
@@ -16,12 +15,16 @@ function App() {
     <div className="App">
       <Header />
       <Routes>
-        {cookies.token_id && <Route path="/plan" element={<PlanPage />} />}
+        {cookies.token_id && (
+          <>
+            <Route path="/plan" element={<PlanPage />} />
+            <Route path="/weeklyPlan" element={<WeeklyPlanPage />} />
+          </>
+        )}
+
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/user:userId" element={<UserPage />} />
-        <Route path="/weeklyPlan" element={<WeeklyPlanPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
