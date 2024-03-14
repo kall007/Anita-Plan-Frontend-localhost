@@ -88,6 +88,7 @@ function SignupPage() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
+  const [plans, showPlans] = useState("");
 
   const navigate = useNavigate();
 
