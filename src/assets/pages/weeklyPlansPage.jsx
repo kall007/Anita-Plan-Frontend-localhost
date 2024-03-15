@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./weeklyPlansPage.css";
+import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:5005";
+const API_URL = "https://anita-plan-api.adaptable.app/";
 
 function WeeklyPlanPage() {
   const [user, setUser] = useState(null);
@@ -11,6 +12,7 @@ function WeeklyPlanPage() {
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [dayOfWeek, setDayOfWeek] = useState("Monday");
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
   const [showItems, setShowItems] = useState(false);
 
   const userId = localStorage.getItem("userId");
@@ -55,9 +57,21 @@ function WeeklyPlanPage() {
   };
 
   useEffect(() => {
-    getName();
-    getWeeks();
-  }, []);
+    const fetchData = async () => {
+    await getName();
+    await getWeeks();
+    };
+
+
+    const authToken = localStorage.getItem("authToken");
+    const userId = localStorage.getItem("userId");
+    if (authToken && userId) {
+      fetchData();
+    } else {
+      navigate("/"); // Redirect to login page if not authenticated
+    }
+  }, [navigate]);
+  
   const MONDAY =
     items &&
     items.filter((e) => {

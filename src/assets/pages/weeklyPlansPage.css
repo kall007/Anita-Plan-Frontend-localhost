@@ -1,49 +1,49 @@
-.week {
-  border: 1px solid;
-  --box-border-border: linear-gradient(
-    105deg,
-    rgb(255, 46, 144) 0%,
-    rgb(61, 35, 185) 100%
-  );
+:root {
+  --primary: #d81e5b;
+  --secondary: #8a4efc;
+  --light: #eee;
+  --light-alt: #61759b;
+  --dark: #131a26;
+  --dark-alt: #202b3e;
 }
 .monday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;
 }
 .tuesday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;
 }
 .wednesday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;
 }
 .thursday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;
 }
 .friday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;
 }
 .saturday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;
 }
 .sunday {
-  background-color: #ff9800;
+  background-color: var(--dark);
   padding: 20px;
   border-color: #000;
   border: 1px solid;

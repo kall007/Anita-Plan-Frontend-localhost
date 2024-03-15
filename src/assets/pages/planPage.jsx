@@ -4,7 +4,7 @@ import "./planPage.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:5005";
+const API_URL = "https://anita-plan-api.adaptable.app/";
 
 function PlanPage() {
   const [cookies, setCookie] = useCookies("token_id");
@@ -48,10 +48,22 @@ function PlanPage() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    getPlans();
-    getName();
-  }, []);
+    const fetchData = async () => {
+      setLoading(true);
+      await getName();
+      await getPlans();
+      setLoading(false);
+    };
+
+    // Check if user is authenticated
+    const authToken = localStorage.getItem("authToken");
+    const userId = localStorage.getItem("userId");
+    if (authToken && userId) {
+      fetchData();
+    } else {
+      navigate("/"); // Redirect to login page if not authenticated
+    }
+  }, [navigate]);
 
   const completePlan = async (id) => {
     try {
@@ -134,12 +146,18 @@ function PlanPage() {
                 <div
                   className={"plan" + (plan.complete ? " is-complete" : "")}
                   key={plan._id}
-                  onClick={() => completePlan(plan._id)}
                 >
-                  <div className="checkbox"></div>
+                  <div
+                    className="checkbox"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      completePlan(plan._id);
+                    }}
+                  ></div>
                   {editPlanId === plan._id ? (
                     <input
                       type="text"
+                      className="edit-plan-input"
                       value={editedPlanText}
                       onChange={(e) => setEditedPlanText(e.target.value)}
                       autoFocus
@@ -168,7 +186,10 @@ function PlanPage() {
                   )}
                   <div
                     className="delete-plan"
-                    onClick={() => deletePlan(plan._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deletePlan(plan._id);
+                    }}
                   >
                     x
                   </div>
