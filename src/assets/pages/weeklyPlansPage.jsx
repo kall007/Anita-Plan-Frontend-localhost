@@ -57,21 +57,16 @@ function WeeklyPlanPage() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-    await getName();
-    await getWeeks();
-    };
-
 
     const authToken = localStorage.getItem("authToken");
     const userId = localStorage.getItem("userId");
     if (authToken && userId) {
-      fetchData();
+      getName();
+      getWeeks();
     } else {
       navigate("/"); // Redirect to login page if not authenticated
     }
   }, [navigate]);
-  
   const MONDAY =
     items &&
     items.filter((e) => {
