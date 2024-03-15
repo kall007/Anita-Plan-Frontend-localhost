@@ -57,16 +57,10 @@ function WeeklyPlanPage() {
   };
 
   useEffect(() => {
-
-    const authToken = localStorage.getItem("authToken");
-    const userId = localStorage.getItem("userId");
-    if (authToken && userId) {
-      getName();
-      getWeeks();
-    } else {
-      navigate("/"); // Redirect to login page if not authenticated
-    }
-  }, [navigate]);
+    getName();
+    getWeeks();
+  }, []);
+  
   const MONDAY =
     items &&
     items.filter((e) => {
