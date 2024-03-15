@@ -7,11 +7,11 @@
   align-items: center;
   margin-bottom: 40px;
   padding: 15px 30px;
-  position: fixed; /* Set navbar position to fixed */
-  top: 0; /* Position it at the top of the viewport */
+  position: fixed; 
+  top: 0; 
   left: 0;
-  z-index: 1000; /* Ensure the navbar is above other content */
-  overflow: hidden; /* Hide any content that overflows */
+  z-index: 1000; 
+  overflow: hidden; 
 }
   
   .CompanyName {
@@ -46,7 +46,7 @@
     font-size: 1.2rem;
     cursor: pointer;
     padding: 0;
-    padding-left: 25px; /* Reset margin */
+    padding-left: 25px; 
   }
   
   button:hover {

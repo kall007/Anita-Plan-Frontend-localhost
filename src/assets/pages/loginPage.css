@@ -68,7 +68,8 @@ input[type="password"] {
 .button-container2 {
   align-items: center;
   justify-content: center;
-  margin-left: 200px;
+  margin-left: 145px;
+  margin-bottom: 13px;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -78,7 +79,7 @@ input[type="password"] {
   cursor: pointer;
 }
 
-button:hover {
+.button-container2 {
   background-color: #c2185b; 
 }
 
@@ -97,7 +98,7 @@ p a:hover {
 }
 
 .no-account-yet {
-  padding-left: 20px;
+  padding-left: 11px;
   color: #cccccc;
 }
 
@@ -105,3 +106,26 @@ p a:hover {
   color: red;
   margin-top: 8px;
 }
+
+.link-container2 {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.link-container p {
+  color: #333; /* Change link and paragraph color */
+  text-decoration: none;
+}
+
+.link-container2 a:hover {
+  text-decoration: underline;
+}
+
+.link-container2 a {
+    color: #551A8B;
+    text-decoration: none;
+  }
+  
+  .link-container a:hover {
+    text-decoration: underline;
+  }

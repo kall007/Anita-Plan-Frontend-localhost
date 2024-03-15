@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./signupPage.css";
@@ -9,7 +9,7 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
@@ -19,6 +19,17 @@ function SignupPage() {
 
   const handleSignupSubmit = (e) => {
     e.preventDefault();
+
+    // Password validation regex
+    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+
+    if (!passwordRegex.test(password)) {
+      setErrorMessage(
+        "Password must have at least 6 characters and contain at least one number, one lowercase, and one uppercase letter."
+      );
+      return;
+    }
+
     const reqBody = { email, password, name };
 
     axios
@@ -28,6 +39,7 @@ function SignupPage() {
       })
       .catch((err) => {
         console.log(err);
+        setErrorMessage("An error occurred. Please try again later.");
       });
   };
 
@@ -69,12 +81,12 @@ function SignupPage() {
           />
         </div>
 
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         <div className="button-container">
           <button type="submit">Create Account</button>
         </div>
       </form>
-
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
       <div className="link-container">
         <p className="already-account">Already have an account?</p>

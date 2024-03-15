@@ -1,11 +1,28 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./navbar.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const [cookies, setCookie] = useCookies("token_id");
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track authentication
+  const [cookies, setCookie, removeCookie] = useCookies("token_id");
   const navigate = useNavigate();
+
+  // Check if the user is logged in when the component mounts
+  useEffect(() => {
+    const authToken = localStorage.getItem("authToken");
+    setIsLoggedIn(!!authToken);
+  }, []);
+
+  // Function to handle logout
+  const handleLogout = () => {
+    removeCookie("token_id");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userId");
+    setIsLoggedIn(false); // Update authentication state
+    navigate("/");
+  };
 
   return (
     <div className="navWrapper">
@@ -21,18 +38,15 @@ const Navbar = () => {
         <Link to="/plan">Plans</Link>
         <Link to="/about">About</Link>
 
-        <button
-          onClick={() => {
-            setCookie("token_id", "");
-            localStorage.removeItem("authToken");
-            localStorage.removeItem("userId");
-            navigate("/");
-          }}
-        >
-          Logout
-        </button>
+        {/* Conditional rendering based on authentication state */}
+        {isLoggedIn ? (
+          <button onClick={handleLogout}>Logout</button>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </nav>
     </div>
   );
 };
+
 export default Navbar;

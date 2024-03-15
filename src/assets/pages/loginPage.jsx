@@ -10,6 +10,7 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cookies, setCookie] = useCookies("token_id");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleEmail = (e) => setEmail(e.target.value);
@@ -18,19 +19,22 @@ function LoginPage() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const requestBody = { email, password };
-    await axios
-      .post(`${API_URL}/login`, requestBody)
-      .then((response) => {
-        console.log("JWT token", response.data.authToken);
-        setCookie("token_id", response.data.userId);
-        localStorage.setItem("authToken", response.data.authToken);
-        localStorage.setItem("userId", response.data.userId);
-        navigate("/plan");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const response = await axios.post(`${API_URL}/login`, requestBody);
+      console.log("JWT token", response.data.authToken);
+      setCookie("token_id", response.data.userId);
+      localStorage.setItem("authToken", response.data.authToken);
+      localStorage.setItem("userId", response.data.userId);
+      navigate("/plan");
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Password or email incorrect. Please try again.");
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+      }
+    }
   };
+
   return (
     <div className="login-wrapper">
       <div className="login-container">
@@ -58,9 +62,12 @@ function LoginPage() {
               />
             </div>
             <button className="button-container2">Log In</button>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </form>
-          <p className="no-account-yet">Dont have an account yet?</p>
-          <Link to={"/signup"}> Sign Up</Link>
+          <p className="no-account-yet">Don't have an account yet?</p>
+          <div className="link-container2">
+            <Link to={"/signup"}> Sign Up</Link>
+          </div>
         </div>
       </div>
     </div>
