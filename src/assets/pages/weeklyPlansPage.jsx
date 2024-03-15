@@ -3,7 +3,7 @@ import axios from "axios";
 import "./weeklyPlansPage.css";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "https://anita-plan-api.adaptable.app/";
+const API_URL = "https://anita-plan-api.adaptable.app";
 
 function WeeklyPlanPage() {
   const [user, setUser] = useState(null);
