@@ -4,7 +4,7 @@ import "./planPage.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "https://anita-plan-api.adaptable.app/";
+const API_URL = "http://localhost:5005";
 
 function PlanPage() {
   const [cookies, setCookie] = useCookies("token_id");

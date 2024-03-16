@@ -4,7 +4,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import "./loginPage.css";
 
-const API_URL = "https://anita-plan-api.adaptable.app/";
+const API_URL = "http://localhost:5005";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
